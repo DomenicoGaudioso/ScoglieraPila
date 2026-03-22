@@ -1,0 +1,42 @@
+Sviluppare e mantenere una web app professionale in Python e Streamlit per il
+dimensionamento preliminare della scogliera di protezione di una pila da ponte.
+
+STATO ATTUALE (v2 — 2026-03-22)
+La versione attuale è completa nei requisiti di base. Funzionalità implementate:
+- DatiScogliera (dataclass frozen) con tutti i parametri per entrambi i metodi.
+- valida_dati(): controllo completo per Isbash e Shields.
+- d50_isbash(), tau_fondo(), d50_shields(): formule di dimensionamento.
+- calcola_d50(): dispatcher sul metodo selezionato.
+- spessore_rivestimento(), larghezza_apron(): geometria apron.
+- massa_masso_tipico(): stima volume (sferico, D=D50) e massa.
+- calcola_report(): DataFrame con entrambi i metodi e dimensioni apron.
+- curva_d50_vs_V(): 50 punti sensitività Isbash.
+- curva_d50_vs_y(): 50 punti sensitività Shields.
+- commenti_progettuali(): note automatiche su D50, velocità, θ_c.
+- app.py: layout wide, 4 metriche, input dinamici per metodo, 3 tab,
+  grafico sensitività con marcatura punto di progetto, download CSV.
+
+STANDARD DELLA SUITE
+- Tutta la logica in `src.py`. Nessuna formula in `app.py`.
+- Grafici esclusivamente Plotly.
+- Interfaccia in italiano.
+- DatiScogliera (dataclass frozen) per gli input.
+- Validazioni robuste con st.stop() in caso di errore.
+- Tab: Risultati / Grafici / Note tecniche.
+- Export CSV.
+
+FLUSSO DATI NELLA SUITE
+App Scalzamento → ys_atteso → ScoglieraPila → D50 → ScoglieraFondazione.
+I parametri ys_atteso e D50 vengono inseriti manualmente dall'utente nelle app downstream.
+
+ESTENSIONI FUTURE PRIORITARIE
+1. Volume totale apron (richiede geometria pila: a, L come input aggiuntivi).
+2. Classificazione granulometrica EN 13383 in base a D50.
+3. Verifica strato filtro granulare (regola di Terzaghi / Sherard).
+4. Grafico comparativo Isbash vs Shields sullo stesso asse.
+5. Report PDF.
+
+REQUISITI DI CODICE
+- Non rompere la separazione src.py / app.py.
+- Aggiornare sempre readme.md e prompt.txt dopo ogni iterazione.
+- Mantenere le funzioni esistenti compatibili con le loro segnature.
