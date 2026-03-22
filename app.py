@@ -255,7 +255,8 @@ with tab3:
     st.divider()
     st.subheader("Volume e massa per metro lineare di pila")
     st.markdown(f"- Volume totale (L_apron \u00d7 spessore): **{vol_m['V_totale [m3/m]']:.3f} m\u00b3/m**")
-    st.markdown(f"- Volume roccia netto (porosit\u00e0 = {vol_m['Porosita\\': [-]']:.0%}): **{vol_m['V_roccia_netto [m3/m]']:.3f} m\u00b3/m**")
+    _por = vol_m["Porosita': [-]"]
+    st.markdown(f"- Volume roccia netto (porosit\u00e0 = {_por:.0%}): **{vol_m['V_roccia_netto [m3/m]']:.3f} m\u00b3/m**")
     st.markdown(f"- **Massa roccia: {vol_m['Massa_roccia [t/m]']:.2f} t/m lineare**")
     st.caption("La porosita' della scogliera posata e' stimata al 40% (valore tipico).")
 
