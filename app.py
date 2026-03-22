@@ -191,7 +191,7 @@ with tab1:
                            "scogliera_pila_sensitivita.csv", "text/csv")
     with col_dl4:
         try:
-            pdf_bytes = genera_pdf(dati, D50, note)
+            pdf_bytes = bytes(genera_pdf(dati, D50, note))
             st.download_button("Scarica Report PDF", pdf_bytes,
                                "scogliera_pila_report.pdf", "application/pdf")
         except ImportError:
