@@ -645,7 +645,7 @@ def genera_pdf(dati: "DatiScogliera", D50: float, note: List[str]) -> bytes:
         pdf.multi_cell(0, 5, txt)
         pdf.ln(1)
 
-    return bytes(pdf.output())
+    return pdf.output()
 
 
 # ---------------------------------------------------------------------------
