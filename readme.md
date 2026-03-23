@@ -1,4 +1,5 @@
 # ScoglieraPila – Dimensionamento scogliera di protezione pila da ponte
+![alt text](socialScoglieraPila.png)
 
 Web app professionale per il **dimensionamento preliminare della scogliera (riprap)**
 a protezione di una **pila da ponte**, con i metodi Isbash e Shields.
