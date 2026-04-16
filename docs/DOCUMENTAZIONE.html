@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoglieraPila - Documentazione Tecnica</title>
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --accent: #2980b9;
+            --accent2: #27ae60;
+            --danger: #e74c3c;
+            --warn: #f39c12;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --text: #212529;
+            --text-light: #6c757d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2c5f8a 100%);
+            color: white;
+            padding: 60px 20px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .toc h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 8px;
+        }
+
+        .toc a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .toc a:hover {
+            background: #eef4fa;
+        }
+
+        /* Section */
+        section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        section h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        section h3 {
+            color: var(--primary);
+            font-size: 1.15rem;
+            margin: 20px 0 12px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #eef4fa;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #f4f6f9;
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+
+        .formula-box .formula-label {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .formula-box .formula {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .card h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+
+        .success-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent2);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+
+        .warn-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--warn);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+
+        /* Badges */
+        .badge-ok {
+            background: #27ae60;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-warn {
+            background: #f39c12;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-no {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-info {
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 12px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* SVG styling */
+        svg text {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 20px 15px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            .formula-box .formula {
+                font-size: 0.95rem;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <h1>ScoglieraPila</h1>
+    <p class="subtitle">Software professionale per il dimensionamento della scogliera di protezione (riprap) di una pila da ponte</p>
+    <p style="opacity: 0.8; font-size: 0.95rem;">Versione 2.0 &bull; Ultimo aggiornamento: 22/03/2026</p>
+    <div class="badge-row">
+        <span class="badge">Metodo Isbash</span>
+        <span class="badge">Metodo Shields</span>
+        <span class="badge">FHWA HEC-23</span>
+        <span class="badge">EN 13383-1</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- TOC -->
+    <nav class="toc">
+        <h2>Indice dei Contenuti</h2>
+        <div class="toc-grid">
+            <a href="#panoramica">1. Panoramica Generale</a>
+            <a href="#funzionalita">2. Funzionalità e Verifiche</a>
+            <a href="#formule">3. Formulazione Matematica</a>
+            <a href="#input">4. Input e Parametri</a>
+            <a href="#output">5. Output Calcolati</a>
+            <a href="#normative">6. Riferimenti Normativi</a>
+            <a href="#sezione">7. Geometria della Scogliera</a>
+            <a href="#fasi">8. Fasi Costruttive</a>
+            <a href="#esempio">9. Esempio di Utilizzo</a>
+            <a href="#glossario">10. Glossario</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Panoramica -->
+    <section id="panoramica">
+        <h2>1. Panoramica Generale</h2>
+
+        <p><strong>ScoglieraPila</strong> è un'applicazione web professionale per il dimensionamento preliminare della scogliera di protezione (riprap) a protezione di una pila da ponte. Il software implementa due metodi consolidati dalla letteratura tecnica internazionale:</p>
+
+        <ul>
+            <li><strong>Metodo Isbash</strong> — dimensionamento da velocità caratteristica della corrente</li>
+            <li><strong>Metodo Shields</strong> — dimensionamento da sforzo tangenziale al fondo</li>
+        </ul>
+
+        <p>L'applicazione calcola automaticamente il diametro mediano D50 dei massi, la gradazione granulometrica, lo spessore del rivestimento, la larghezza dell'apron, il filtro granulare di transizione e genera report PDF professionali.</p>
+
+        <h3>Pubblico Target</h3>
+        <p>Ingegneri civili, idraulici e strutturisti che operano nella progettazione di ponti e opere d'arte in corrispondenza di corsi d'acqua. Lo strumento è adatto per verifiche preliminari e studi di fattibilità.</p>
+
+        <h3>Integrazione nella Suite civilbox</h3>
+        <div class="info-card">
+            <strong>Flusso dati:</strong><br>
+            App Scalzamento &rarr; <em>ys_atteso</em> &rarr; ScoglieraPila &rarr; <em>D50</em> &rarr; ScoglieraFondazione<br>
+            <span style="color: var(--text-light); font-size: 0.85rem;">Il parametro di scalzamento atteso viene inserito dall'utente come input, mentre il D50 calcolato può essere trasferito manualmente alle app successive della suite.</span>
+        </div>
+    </section>
+
+    <!-- Section 2: Funzionalità -->
+    <section id="funzionalita">
+        <h2>2. Funzionalità e Verifiche Strutturali</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>Dimensionamento D50</h4>
+                <p>Calcolo del diametro mediano dei massi con metodo Isbash o Shields, con confronto automatico quando entrambi i set di parametri sono disponibili.</p>
+            </div>
+            <div class="card">
+                <h4>Gradazione Riprap</h4>
+                <p>Curva granulometrica completa: D15, D50, D85, D100 secondo le linee guida FHWA HEC-23.</p>
+            </div>
+            <div class="card">
+                <h4>Filtro Granulare</h4>
+                <p>Progettazione del filtro di transizione con criteri di Terzaghi (anti-piping e anti-intasamento).</p>
+            </div>
+            <div class="card">
+                <h4>Classe EN 13383-1</h4>
+                <p>Classificazione automatica dei massi in classi granulometriche secondo la norma europea.</p>
+            </div>
+            <div class="card">
+                <h4>Verifiche Normative</h4>
+                <p>Sistema di verifiche tabellari con esiti colorati (OK / ATTENZIONE / NON OK) per tutti i parametri.</p>
+            </div>
+            <div class="card">
+                <h4>Report PDF</h4>
+                <p>Generazione automatica di report PDF professionali con tutti i passaggi di calcolo.</p>
+            </div>
+        </div>
+
+        <h3>Verifiche Normative Implementate</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>N.</th>
+                    <th>Verifica</th>
+                    <th>Criterio</th>
+                    <th>Esito</th>
+                    <th>Riferimento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>D50 pezzatura</td>
+                    <td>0.10 - 1.50 m (campo tipico)</td>
+                    <td><span class="badge-warn">ATTENZIONE</span> fuori range</td>
+                    <td>FHWA HEC-23</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Spessore rivestimento</td>
+                    <td>&ge; max(0.30 m, 2&middot;D50)</td>
+                    <td><span class="badge-ok">OK</span> / <span class="badge-no">NON OK</span></td>
+                    <td>FHWA HEC-23, Sec. 10; CNR-UNI</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Larghezza apron</td>
+                    <td>&ge; 2 &middot; ys_atteso</td>
+                    <td><span class="badge-ok">OK</span> / <span class="badge-no">NON OK</span></td>
+                    <td>FHWA HEC-23; Richardson &amp; Davis HEC-18</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Massa masso tipico</td>
+                    <td>&gt; 100 kg (maneggiabilit&agrave;)</td>
+                    <td><span class="badge-ok">OK</span> / <span class="badge-warn">ATTENZIONE</span></td>
+                    <td>EN 13383-1</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Uniformit&agrave; granulometrica</td>
+                    <td>D85/D15 &le; 6</td>
+                    <td><span class="badge-ok">OK</span> / <span class="badge-warn">ATTENZIONE</span></td>
+                    <td>FHWA HEC-23; EN 13383-1</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Velocit&agrave; caratteristica</td>
+                    <td>&le; 3.0 m/s (normale), &le; 5.0 m/s (alto)</td>
+                    <td><span class="badge-ok">OK</span> / <span class="badge-warn">ATTENZIONE</span></td>
+                    <td>HEC-23</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Flow Diagram -->
+        <h3>Flusso di Calcolo</h3>
+        <svg viewBox="0 0 800 400" style="width: 100%; max-width: 800px; display: block; margin: 20px auto;">
+            <!-- Background -->
+            <rect x="0" y="0" width="800" height="400" fill="#f8f9fa" rx="10"/>
+
+            <!-- Input Block -->
+            <rect x="20" y="30" width="140" height="80" fill="#3498db" rx="8"/>
+            <text x="90" y="60" text-anchor="middle" fill="white" font-weight="600" font-size="13">INPUT</text>
+            <text x="90" y="78" text-anchor="middle" fill="white" font-size="10">S_s, ρ, V/K</text>
+            <text x="90" y="92" text-anchor="middle" fill="white" font-size="10">y, S, θ_c</text>
+
+            <!-- Arrow 1 -->
+            <line x1="160" y1="70" x2="195" y2="70" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Method Selection -->
+            <rect x="200" y="30" width="140" height="80" fill="#2980b9" rx="8"/>
+            <text x="270" y="60" text-anchor="middle" fill="white" font-weight="600" font-size="12">Metodo</text>
+            <text x="270" y="78" text-anchor="middle" fill="white" font-size="10">Selezione</text>
+            <text x="270" y="92" text-anchor="middle" fill="white" font-size="10">(Isbash/Shields)</text>
+
+            <!-- Isbash Path -->
+            <rect x="360" y="10" width="130" height="50" fill="#27ae60" rx="8"/>
+            <text x="425" y="35" text-anchor="middle" fill="white" font-weight="600" font-size="11">ISBASH</text>
+            <text x="425" y="50" text-anchor="middle" fill="white" font-size="9">D50 = V&sup2;/(K&sup2;g(Ss-1))</text>
+
+            <!-- Shields Path -->
+            <rect x="360" y="80" width="130" height="50" fill="#f39c12" rx="8"/>
+            <text x="425" y="100" text-anchor="middle" fill="white" font-weight="600" font-size="11">SHIELDS</text>
+            <text x="425" y="115" text-anchor="middle" fill="white" font-size="9">τ = ρgyS, D50 = τ/(θc(Ss-1)ρg)</text>
+
+            <!-- Arrows to methods -->
+            <line x1="340" y1="50" x2="355" y2="30" stroke="#1a3a5c" stroke-width="2"/>
+            <polygon points="355,30 360,25 360,35" fill="#1a3a5c"/>
+            <line x1="340" y1="90" x2="355" y2="105" stroke="#1a3a5c" stroke-width="2"/>
+            <polygon points="355,105 360,100 360,110" fill="#1a3a5c"/>
+
+            <!-- Arrow to D50 -->
+            <line x1="490" y1="45" x2="530" y2="70" stroke="#1a3a5c" stroke-width="2"/>
+            <polygon points="530,70 525,65 535,65" fill="#1a3a5c"/>
+
+            <!-- D50 Result -->
+            <rect x="535" y="40" width="120" height="60" fill="#1a3a5c" rx="8"/>
+            <text x="595" y="65" text-anchor="middle" fill="white" font-weight="600" font-size="13">D50</text>
+            <text x="595" y="82" text-anchor="middle" fill="white" font-size="10">Diametro mediano</text>
+
+            <!-- Arrow down -->
+            <line x1="595" y1="100" x2="595" y2="140" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Secondary calculations -->
+            <rect x="450" y="145" width="290" height="100" fill="#ecf0f1" rx="8" stroke="#bdc3c7" stroke-width="2"/>
+            <text x="595" y="165" text-anchor="middle" fill="#1a3a5c" font-weight="600" font-size="12">Calcoli Secondari</text>
+            <text x="480" y="185" text-anchor="start" fill="#2c3e50" font-size="10">• Spessore rivestimento: t = f_t &middot; D50</text>
+            <text x="480" y="200" text-anchor="start" fill="#2c3e50" font-size="10">• Larghezza apron: L = f_L &middot; ys</text>
+            <text x="480" y="215" text-anchor="start" fill="#2c3e50" font-size="10">• Massa masso: M = ρ_s &middot; V_m</text>
+            <text x="480" y="230" text-anchor="start" fill="#2c3e50" font-size="10">• Gradazione: D15/D50/D85/D100</text>
+
+            <!-- Arrow to results -->
+            <line x1="595" y1="245" x2="595" y2="285" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Results -->
+            <rect x="490" y="290" width="210" height="90" fill="#27ae60" rx="8"/>
+            <text x="595" y="310" text-anchor="middle" fill="white" font-weight="600" font-size="12">RISULTATI</text>
+            <text x="595" y="328" text-anchor="middle" fill="white" font-size="10">Verifiche normative</text>
+            <text x="595" y="343" text-anchor="middle" fill="white" font-size="10">Report PDF / CSV</text>
+            <text x="595" y="358" text-anchor="middle" fill="white" font-size="10">Curve di sensitivit&agrave;</text>
+
+            <!-- Arrow marker definition -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#1a3a5c"/>
+                </marker>
+            </defs>
+        </svg>
+    </section>
+
+    <!-- Section 3: Formule -->
+    <section id="formule">
+        <h2>3. Formulazione Matematica</h2>
+
+        <h3>3.1 Metodo Isbash (da velocit&agrave;)</h3>
+        <p>Il metodo Isbash stima il diametro dei massi necessari per resistere alla velocit&agrave; della corrente. La formula &egrave; ricavata dall'equilibrio tra forza idrodinamica e peso immerso del masso.</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Diametro mediano dei massi (Isbash)</div>
+            <div class="formula">D<sub>50</sub> = V&sup2; / (K&sup2; &middot; g &middot; (S<sub>s</sub> - 1))</div>
+        </div>
+
+        <table>
+            <tr><th>Simbolo</th><th>Descrizione</th><th>Unit&agrave;</th></tr>
+            <tr><td>V</td><td>Velocit&agrave; caratteristica della corrente</td><td>m/s</td></tr>
+            <tr><td>K</td><td>Coefficiente di Isbash (1.5-1.7)</td><td>-</td></tr>
+            <tr><td>g</td><td>Accelerazione gravitazionale</td><td>m/s&sup2;</td></tr>
+            <tr><td>S<sub>s</sub></td><td>Densit&agrave; relativa della roccia (&rho;<sub>s</sub>/&rho;)</td><td>-</td></tr>
+        </table>
+
+        <div class="info-card">
+            <strong>Nota sul coefficiente K:</strong>
+            <ul>
+                <li><strong>K = 1.7</strong>: masso annegato o parzialmente interrato nel fondo (condizione pi&ugrave; favorevole)</li>
+                <li><strong>K = 1.5</strong>: masso posato sul fondo in corrente (condizione pi&ugrave; conservativa)</li>
+            </ul>
+        </div>
+
+        <h3>3.2 Metodo Shields (da sforzo di fondo)</h3>
+        <p>Il metodo Shields stima il diametro dei massi a partire dallo sforzo tangenziale al fondo, calcolato con l'ipotesi di alveo ampio in moto uniforme.</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Sforzo tangenziale al fondo (alveo ampio)</div>
+            <div class="formula">&tau; = &rho; &middot; g &middot; y &middot; S</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Diametro mediano dei massi (Shields)</div>
+            <div class="formula">D<sub>50</sub> = &tau; / (&theta;<sub>c</sub> &middot; (S<sub>s</sub> - 1) &middot; &rho; &middot; g)</div>
+        </div>
+
+        <table>
+            <tr><th>Simbolo</th><th>Descrizione</th><th>Unit&agrave;</th></tr>
+            <tr><td>&tau;</td><td>Sforzo tangenziale al fondo</td><td>Pa (N/m&sup2;)</td></tr>
+            <tr><td>&rho;</td><td>Densit&agrave; dell'acqua</td><td>kg/m&sup3;</td></tr>
+            <tr><td>y</td><td>Tirante idrico</td><td>m</td></tr>
+            <tr><td>S</td><td>Pendenza idraulica del fondo</td><td>-</td></tr>
+            <tr><td>&theta;<sub>c</sub></td><td>Parametro critico di Shields</td><td>-</td></tr>
+        </table>
+
+        <div class="info-card">
+            <strong>Nota sul parametro critico di Shields (&theta;<sub>c</sub>):</strong>
+            <ul>
+                <li><strong>&theta;<sub>c</sub> &asymp; 0.047</strong>: Shields (1936) per materiale subsferico</li>
+                <li><strong>&theta;<sub>c</sub> &asymp; 0.030</strong>: valore conservativo per materiale angoloso</li>
+            </ul>
+        </div>
+
+        <h3>3.3 Geometria dell'Apron</h3>
+
+        <div class="formula-box">
+            <div class="formula-label">Spessore del rivestimento</div>
+            <div class="formula">t = f<sub>t</sub> &middot; D<sub>50</sub></div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Larghezza dell'apron</div>
+            <div class="formula">L<sub>apron</sub> = f<sub>L</sub> &middot; y<sub>s</sub></div>
+        </div>
+
+        <p>dove <em>y<sub>s</sub></em> &egrave; lo scalzamento atteso (input dall'utente, derivato dall'app Scalzamento della suite civilbox).</p>
+
+        <h3>3.4 Gradazione Granulometrica del Riprap</h3>
+        <p>Secondo le linee guida FHWA HEC-23, la gradazione tipica del riprap &egrave;:</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Percentili della curva granulometrica</div>
+            <div class="formula">D<sub>15</sub> &asymp; 0.40 &middot; D<sub>50</sub> &nbsp;&nbsp;|&nbsp;&nbsp; D<sub>85</sub> &asymp; 2.00 &middot; D<sub>50</sub> &nbsp;&nbsp;|&nbsp;&nbsp; D<sub>100</sub> &asymp; 2.50 &middot; D<sub>50</sub></div>
+        </div>
+
+        <h3>3.5 Filtro Granulare di Terzaghi</h3>
+        <p>Il filtro granulare deve soddisfare due criteri principali:</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Criterio anti-piping (Terzaghi)</div>
+            <div class="formula">D<sub>15,filtro</sub> / D<sub>85,base</sub> &lt; 5 &nbsp;&rarr;&nbsp; D<sub>15,filtro</sub> &lt; 5 &middot; D<sub>85,base</sub></div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Criterio anti-intasamento (Terzaghi)</div>
+            <div class="formula">D<sub>15,filtro</sub> / D<sub>15,base</sub> &gt; 5 &nbsp;&rarr;&nbsp; D<sub>15,filtro</sub> &gt; 5 &middot; D<sub>15,base</sub></div>
+        </div>
+
+        <h3>3.6 Massa del Masso Tipico</h3>
+        <p>Assumendo il masso come sfera di diametro D<sub>50</sub>:</p>
+
+        <div class="formula-box">
+            <div class="formula-label">Volume del masso sferico equivalente</div>
+            <div class="formula">V<sub>m</sub> = &pi; &middot; D<sub>50</sub>&sup3; / 6</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Massa del masso</div>
+            <div class="formula">M<sub>m</sub> = &rho;<sub>s</sub> &middot; V<sub>m</sub> = S<sub>s</sub> &middot; &rho; &middot; (&pi; &middot; D<sub>50</sub>&sup3; / 6)</div>
+        </div>
+    </section>
+
+    <!-- Section 4: Input -->
+    <section id="input">
+        <h2>4. Input e Parametri di Calcolo</h2>
+
+        <h3>4.1 Parametri Generali</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Simbolo</th>
+                    <th>Descrizione</th>
+                    <th>Unit&agrave;</th>
+                    <th>Valori Tipici</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Densit&agrave; relativa roccia</td>
+                    <td>S<sub>s</sub></td>
+                    <td>Rapporto tra densit&agrave; della roccia e dell'acqua (&rho;<sub>s</sub>/&rho;)</td>
+                    <td>-</td>
+                    <td>2.60 - 2.70 (granito)</td>
+                </tr>
+                <tr>
+                    <td>Densit&agrave; acqua</td>
+                    <td>&rho;</td>
+                    <td>Densit&agrave; dell'acqua del corso idrico</td>
+                    <td>kg/m&sup3;</td>
+                    <td>1000</td>
+                </tr>
+                <tr>
+                    <td>Scalzamento atteso</td>
+                    <td>y<sub>s</sub></td>
+                    <td>Profondit&agrave; di scalzamento attesa (dall'app Scalzamento)</td>
+                    <td>m</td>
+                    <td>1.0 - 5.0</td>
+                </tr>
+                <tr>
+                    <td>Fattore spessore</td>
+                    <td>f<sub>t</sub></td>
+                    <td>Moltiplicatore per lo spessore (spess = f<sub>t</sub>&middot;D50)</td>
+                    <td>-</td>
+                    <td>2.0 (default)</td>
+                </tr>
+                <tr>
+                    <td>Fattore larghezza</td>
+                    <td>f<sub>L</sub></td>
+                    <td>Moltiplicatore per la larghezza apron (L = f<sub>L</sub>&middot;y<sub>s</sub>)</td>
+                    <td>-</td>
+                    <td>2.0 (default)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>4.2 Parametri Metodo Isbash</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Simbolo</th>
+                    <th>Descrizione</th>
+                    <th>Unit&agrave;</th>
+                    <th>Valori Tipici</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Velocit&agrave; caratteristica</td>
+                    <td>V</td>
+                    <td>Velocit&agrave; della corrente in prossimit&agrave; della pila</td>
+                    <td>m/s</td>
+                    <td>1.0 - 4.0</td>
+                </tr>
+                <tr>
+                    <td>Coefficiente Isbash</td>
+                    <td>K</td>
+                    <td>Coefficiente empirico che dipende dalla posizione del masso</td>
+                    <td>-</td>
+                    <td>1.5 - 1.7</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>4.3 Parametri Metodo Shields</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Simbolo</th>
+                    <th>Descrizione</th>
+                    <th>Unit&agrave;</th>
+                    <th>Valori Tipici</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tirante</td>
+                    <td>y</td>
+                    <td>Altezza d'acqua nella sezione</td>
+                    <td>m</td>
+                    <td>1.0 - 10.0</td>
+                </tr>
+                <tr>
+                    <td>Pendenza idraulica</td>
+                    <td>S</td>
+                    <td>Pendenza del fondo del corso d'acqua</td>
+                    <td>-</td>
+                    <td>0.0001 - 0.01</td>
+                </tr>
+                <tr>
+                    <td>Shields critico</td>
+                    <td>&theta;<sub>c</sub></td>
+                    <td>Parametro adimensionale critico di incipiente movimento</td>
+                    <td>-</td>
+                    <td>0.030 - 0.047</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 5: Output -->
+    <section id="output">
+        <h2>5. Output Calcolati</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Simbolo</th>
+                    <th>Descrizione</th>
+                    <th>Unit&agrave;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Diametro mediano</td>
+                    <td>D<sub>50</sub></td>
+                    <td>Diametro mediano dei massi di scogliera</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>Spessore rivestimento</td>
+                    <td>t</td>
+                    <td>Spessore minimo del manto di scogliera</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>Larghezza apron</td>
+                    <td>L<sub>apron</sub></td>
+                    <td>Estensione laterale dell'apron di protezione</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>Massa masso tipico</td>
+                    <td>M<sub>m</sub></td>
+                    <td>Massa del singolo masso (sfera equivalente D<sub>50</sub>)</td>
+                    <td>kg</td>
+                </tr>
+                <tr>
+                    <td>Densit&agrave; roccia</td>
+                    <td>&rho;<sub>s</sub></td>
+                    <td>Densit&agrave; del materiale lapideo</td>
+                    <td>kg/m&sup3;</td>
+                </tr>
+                <tr>
+                    <td>D<sub>15</sub> gradazione</td>
+                    <td>D<sub>15</sub></td>
+                    <td>Percentile 15 della curva granulometrica</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>D<sub>85</sub> gradazione</td>
+                    <td>D<sub>85</sub></td>
+                    <td>Percentile 85 della curva granulometrica</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>D<sub>100</sub> gradazione</td>
+                    <td>D<sub>100</sub></td>
+                    <td>Dimensione massima ammissibile</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>D<sub>50</sub> filtro</td>
+                    <td>D<sub>50,f</sub></td>
+                    <td>Diametro mediano del filtro granulare (Terzaghi)</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>Spessore filtro</td>
+                    <td>t<sub>f</sub></td>
+                    <td>Spessore minimo dello strato filtro</td>
+                    <td>m</td>
+                </tr>
+                <tr>
+                    <td>Volume scogliera/metro</td>
+                    <td>V/m</td>
+                    <td>Volume totale di scogliera per metro lineare di pila</td>
+                    <td>m&sup3;/m</td>
+                </tr>
+                <tr>
+                    <td>Massa scogliera/metro</td>
+                    <td>M/m</td>
+                    <td>Massa netta di roccia per metro lineare (detratta la porosit&agrave;)</td>
+                    <td>t/m</td>
+                </tr>
+                <tr>
+                    <td>Classe EN 13383-1</td>
+                    <td>CP</td>
+                    <td>Classe granulometrica secondo norma europea</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Formati di Export</h3>
+        <div class="card-grid">
+            <div class="card">
+                <h4>CSV Passaggi</h4>
+                <p>Tabella dettagliata con tutti i passaggi intermedi del calcolo.</p>
+            </div>
+            <div class="card">
+                <h4>CSV Risultati</h4>
+                <p>Riepilogo dei parametri calcolati principali.</p>
+            </div>
+            <div class="card">
+                <h4>CSV Sensitivit&agrave;</h4>
+                <p>Curve D50 vs V (Isbash) o D50 vs y (Shields) su 50 punti.</p>
+            </div>
+            <div class="card">
+                <h4>PDF Report</h4>
+                <p>Report professionale completo con tutti i dati, formule e verifiche.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Normative -->
+    <section id="normative">
+        <h2>6. Riferimenti Normativi</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>FHWA HEC-23 (2009)</h4>
+                <p><em>Bridge Scour and Stream Instability Countermeasures</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Linee guida federali USA per il dimensionamento di scogliere e protezioni anti-scalzamento. Fornisce le basi per la gradazione del riprap e le verifiche di stabilit&agrave;.</p>
+            </div>
+            <div class="card">
+                <h4>EN 13383-1:2002+A1:2008</h4>
+                <p><em>Armourstone - Specification, definitions and conformity criteria</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Norma europea per i massi di protezione (armourstone). Definisce le classi granulometriche CP in base alla massa dei massi.</p>
+            </div>
+            <div class="card">
+                <h4>USACE EM 1110-2-1913</h4>
+                <p><em>Design and Construction of Levees</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Manuale tecnico dell'US Army Corps of Engineers per la progettazione di argini e protezioni spondali, incluso il filtro granulare.</p>
+            </div>
+            <div class="card">
+                <h4>Richardson &amp; Davis (HEC-18)</h4>
+                <p><em>Evaluating Scour at Bridges</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Linee guida FHWA per la valutazione dello scalzamento in corrispondenza delle pile da ponte.</p>
+            </div>
+            <div class="card">
+                <h4>Isbash (1936)</h4>
+                <p><em>Construction of Revetments in the USSR</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Pubblicazione originale che introduce la formula per il dimensionamento dei massi in funzione della velocit&agrave; della corrente.</p>
+            </div>
+            <div class="card">
+                <h4>Shields (1936)</h4>
+                <p><em>Anwendung der Aehnlichkeitsmechanik auf die Geschiebebewegung</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Studio sull'inizio del movimento dei sedimenti. Introduce il parametro adimensionale &theta; per la valutazione della stabilit&agrave; dei fondi mobili.</p>
+            </div>
+            <div class="card">
+                <h4>Terzaghi (1943)</h4>
+                <p><em>Theoretical Soil Mechanics</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Fondamenti teorici per la progettazione dei filtri granulari. I criteri anti-piping e anti-intasamento sono ancora oggi lo standard di riferimento.</p>
+            </div>
+            <div class="card">
+                <h4>CNR-UNI</h4>
+                <p><em>Norme tecniche per le costruzioni</em></p>
+                <p style="color: var(--text-light); font-size: 0.85rem;">Riferimento normativo italiano per la verifica delle opere di sostegno e protezione idraulica.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Geometria Sezione -->
+    <section id="sezione">
+        <h2>7. Geometria della Scogliera di Protezione</h2>
+
+        <!-- SVG Sezione Trasversale -->
+        <svg viewBox="0 0 700 450" style="width: 100%; max-width: 700px; display: block; margin: 20px auto; background: #f8f9fa; border-radius: 8px;">
+            <!-- Acqua -->
+            <rect x="0" y="0" width="700" height="200" fill="#3498db" opacity="0.3"/>
+
+            <!-- Superficie acqua -->
+            <line x1="50" y1="200" x2="650" y2="200" stroke="#2980b9" stroke-width="2" stroke-dasharray="5,3"/>
+            <text x="660" y="195" fill="#2980b9" font-size="11" font-weight="600">y</text>
+
+            <!-- Letto fluviale -->
+            <rect x="50" y="200" width="600" height="150" fill="#c4a574"/>
+            <pattern id="dots" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                <circle cx="5" cy="5" r="1" fill="#a08050"/>
+            </pattern>
+            <rect x="50" y="200" width="600" height="150" fill="url(#dots)"/>
+
+            <!-- Pila del ponte -->
+            <rect x="300" y="120" width="60" height="230" fill="#7f8c8d" stroke="#2c3e50" stroke-width="2"/>
+            <text x="330" y="110" text-anchor="middle" fill="#2c3e50" font-size="12" font-weight="600">PILA</text>
+
+            <!-- Zona scalzata -->
+            <path d="M 300 350 Q 330 380 360 350 L 360 320 L 300 320 Z" fill="#8B7355" stroke="#5D4E37" stroke-width="1"/>
+            <text x="330" y="395" text-anchor="middle" fill="#5D4E37" font-size="10" font-style="italic">ys (scalzamento)</text>
+
+            <!-- Apron / Scogliera -->
+            <polygon points="220,320 220,260 440,260 440,320" fill="#95a5a6" stroke="#2c3e50" stroke-width="2"/>
+            <text x="330" y="295" text-anchor="middle" fill="#2c3e50" font-size="11" font-weight="600">APRON</text>
+
+            <!-- Massi sulla scogliera -->
+            <circle cx="250" cy="255" r="12" fill="#7f8c8d" stroke="#2c3e50"/>
+            <circle cx="280" cy="258" r="10" fill="#95a5a6" stroke="#2c3e50"/>
+            <circle cx="310" cy="252" r="14" fill="#7f8c8d" stroke="#2c3e50"/>
+            <circle cx="345" cy="257" r="11" fill="#95a5a6" stroke="#2c3e50"/>
+            <circle cx="375" cy="253" r="13" fill="#7f8c8d" stroke="#2c3e50"/>
+            <circle cx="405" cy="256" r="10" fill="#95a5a6" stroke="#2c3e50"/>
+
+            <!-- Filtro granulare -->
+            <rect x="220" y="320" width="220" height="20" fill="#d4a574" stroke="#8B6914" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="330" y="333" text-anchor="middle" fill="#8B6914" font-size="9">FILTRO</text>
+
+            <!-- Fondazione / Terreno naturale -->
+            <rect x="50" y="350" width="250" height="100" fill="#8B7355"/>
+            <rect x="460" y="350" width="190" height="100" fill="#8B7355"/>
+
+            <!-- Dimensioni - Spessore -->
+            <line x1="100" y1="252" x2="100" y2="265" stroke="#e74c3c" stroke-width="2"/>
+            <line x1="90" y1="252" x2="110" y2="252" stroke="#e74c3c" stroke-width="1.5"/>
+            <line x1="90" y1="265" x2="110" y2="265" stroke="#e74c3c" stroke-width="1.5"/>
+            <text x="85" y="262" fill="#e74c3c" font-size="10" text-anchor="end">t</text>
+
+            <!-- Dimensioni - Larghezza Apron -->
+            <line x1="220" y1="380" x2="440" y2="380" stroke="#27ae60" stroke-width="2"/>
+            <line x1="220" y1="370" x2="220" y2="390" stroke="#27ae60" stroke-width="1.5"/>
+            <line x1="440" y1="370" x2="440" y2="390" stroke="#27ae60" stroke-width="1.5"/>
+            <text x="330" y="395" text-anchor="middle" fill="#27ae60" font-size="10">L<tspan baseline-shift="sub" font-size="8">apron</tspan></text>
+
+            <!-- Legenda -->
+            <rect x="520" y="30" width="170" height="140" fill="white" stroke="#bdc3c7" rx="5"/>
+            <text x="530" y="50" fill="#1a3a5c" font-size="11" font-weight="600">LEGENDA</text>
+            <line x1="530" y1="60" x2="550" y2="60" stroke="#2980b9" stroke-width="2" stroke-dasharray="4,2"/>
+            <text x="555" y="64" fill="#2c3e50" font-size="9">Livello idrico</text>
+            <rect x="530" y="72" width="20" height="12" fill="#95a5a6"/>
+            <text x="555" y="82" fill="#2c3e50" font-size="9">Scogliera (riprap)</text>
+            <rect x="530" y="88" width="20" height="12" fill="#d4a574"/>
+            <text x="555" y="98" fill="#2c3e50" font-size="9">Filtro granulare</text>
+            <rect x="530" y="104" width="20" height="12" fill="#8B7355"/>
+            <text x="555" y="114" fill="#2c3e50" font-size="9">Terreno / fondazione</text>
+            <rect x="530" y="120" width="20" height="12" fill="#7f8c8d"/>
+            <text x="555" y="130" fill="#2c3e50" font-size="9">Pila del ponte</text>
+            <rect x="530" y="136" width="20" height="12" fill="#c4a574"/>
+            <text x="555" y="146" fill="#2c3e50" font-size="9">Letto fluviale</text>
+        </svg>
+
+        <h3>Componenti della Protezione</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>Descrizione</th>
+                    <th>Funzione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Apron (manto)</strong></td>
+                    <td>Strato di massi di pezzatura D<sub>50</sub> posati sul fondo</td>
+                    <td>Protezione diretta contro lo scalzamento</td>
+                </tr>
+                <tr>
+                    <td><strong>Spessore (t)</strong></td>
+                    <td>Spessore del manto, solitamente 2&times;D<sub>50</sub></td>
+                    <td>Garantire almeno 2 strati di massi sovrapposti</td>
+                </tr>
+                <tr>
+                    <td><strong>Larghezza apron</strong></td>
+                    <td>Estensione laterale oltre la pila, solitamente 2&times;y<sub>s</sub></td>
+                    <td>Proteggere i fianchi della pila dai filetti di bordo</td>
+                </tr>
+                <tr>
+                    <td><strong>Filtro granulare</strong></td>
+                    <td>Strato di transizione tra scogliera e substrato</td>
+                    <td>Prevenire la migrazione del materiale fine (anti-piping)</td>
+                </tr>
+                <tr>
+                    <td><strong>Gradazione</strong></td>
+                    <td>Curva granulometrica D<sub>15</sub>-D<sub>50</sub>-D<sub>85</sub>-D<sub>100</sub></td>
+                    <td>Garantire stabilit&agrave; e resistenza all'erosione</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 8: Fasi Costruttive -->
+    <section id="fasi">
+        <h2>8. Sequenza delle Fasi Costruttive</h2>
+
+        <svg viewBox="0 0 700 200" style="width: 100%; max-width: 700px; display: block; margin: 20px auto;">
+            <!-- Fase 1 -->
+            <rect x="10" y="30" width="95" height="140" fill="#3498db" rx="8"/>
+            <text x="57" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 1</text>
+            <text x="57" y="75" text-anchor="middle" fill="white" font-size="9">Rilevamento</text>
+            <text x="57" y="90" text-anchor="middle" fill="white" font-size="9">topografico</text>
+            <text x="57" y="110" text-anchor="middle" fill="white" font-size="8">- Batimetria</text>
+            <text x="57" y="125" text-anchor="middle" fill="white" font-size="8">- Geotecnica</text>
+            <text x="57" y="140" text-anchor="middle" fill="white" font-size="8">- Idraulica</text>
+
+            <!-- Fase 2 -->
+            <rect x="115" y="30" width="95" height="140" fill="#2980b9" rx="8"/>
+            <text x="162" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 2</text>
+            <text x="162" y="75" text-anchor="middle" fill="white" font-size="9">Calcolo</text>
+            <text x="162" y="90" text-anchor="middle" fill="white" font-size="9">D50 e apron</text>
+            <text x="162" y="110" text-anchor="middle" fill="white" font-size="8">- Isbash/Shields</text>
+            <text x="162" y="125" text-anchor="middle" fill="white" font-size="8">- Filtro</text>
+            <text x="162" y="140" text-anchor="middle" fill="white" font-size="8">- Verifiche</text>
+
+            <!-- Fase 3 -->
+            <rect x="220" y="30" width="95" height="140" fill="#27ae60" rx="8"/>
+            <text x="267" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 3</text>
+            <text x="267" y="75" text-anchor="middle" fill="white" font-size="9">Approvvigionamento</text>
+            <text x="267" y="90" text-anchor="middle" fill="white" font-size="9">materiali</text>
+            <text x="267" y="110" text-anchor="middle" fill="white" font-size="8">- Selezione roccia</text>
+            <text x="267" y="125" text-anchor="middle" fill="white" font-size="8">- EN 13383-1</text>
+            <text x="267" y="140" text-anchor="middle" fill="white" font-size="8">- Certificazioni</text>
+
+            <!-- Fase 4 -->
+            <rect x="325" y="30" width="95" height="140" fill="#f39c12" rx="8"/>
+            <text x="372" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 4</text>
+            <text x="372" y="75" text-anchor="middle" fill="white" font-size="9">Posa</text>
+            <text x="372" y="90" text-anchor="middle" fill="white" font-size="9">filtro</text>
+            <text x="372" y="110" text-anchor="middle" fill="white" font-size="8">- Geotessile</text>
+            <text x="372" y="125" text-anchor="middle" fill="white" font-size="8">- Sabbia/ghiaia</text>
+            <text x="372" y="140" text-anchor="middle" fill="white" font-size="8">- Compattazione</text>
+
+            <!-- Fase 5 -->
+            <rect x="430" y="30" width="95" height="140" fill="#e74c3c" rx="8"/>
+            <text x="477" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 5</text>
+            <text x="477" y="75" text-anchor="middle" fill="white" font-size="9">Posa</text>
+            <text x="477" y="90" text-anchor="middle" fill="white" font-size="9">scogliera</text>
+            <text x="477" y="110" text-anchor="middle" fill="white" font-size="8">- D50 progetto</text>
+            <text x="477" y="125" text-anchor="middle" fill="white" font-size="8">- Gradazione</text>
+            <text x="477" y="140" text-anchor="middle" fill="white" font-size="8">- Spessore t</text>
+
+            <!-- Fase 6 -->
+            <rect x="535" y="30" width="95" height="140" fill="#8e44ad" rx="8"/>
+            <text x="582" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="600">FASE 6</text>
+            <text x="582" y="75" text-anchor="middle" fill="white" font-size="9">Collaudo</text>
+            <text x="582" y="90" text-anchor="middle" fill="white" font-size="9">e monitoraggio</text>
+            <text x="582" y="110" text-anchor="middle" fill="white" font-size="8">- Ispezione</text>
+            <text x="582" y="125" text-anchor="middle" fill="white" font-size="8">- Prove</text>
+            <text x="582" y="140" text-anchor="middle" fill="white" font-size="8">- Datalogger</text>
+
+            <!-- Frecce -->
+            <polygon points="105,100 115,95 115,105" fill="#1a3a5c"/>
+            <polygon points="210,100 220,95 220,105" fill="#1a3a5c"/>
+            <polygon points="315,100 325,95 325,105" fill="#1a3a5c"/>
+            <polygon points="420,100 430,95 430,105" fill="#1a3a5c"/>
+            <polygon points="525,100 535,95 535,105" fill="#1a3a5c"/>
+            <polygon points="630,100 640,95 640,105" fill="#1a3a5c"/>
+        </svg>
+
+        <div class="warn-card">
+            <strong>Nota tecnica:</strong> La posa della scogliera deve avvenire in condizioni di bassa portata (magra) e preferibilmente durante la stagione secca. I massi devono essere posati con cura, evitando sovrapposizioni e garantendo la continuit&agrave; del manto.
+        </div>
+    </section>
+
+    <!-- Section 9: Esempio -->
+    <section id="esempio">
+        <h2>9. Esempio di Utilizzo</h2>
+
+        <h3>Dati di Input</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Valore</th>
+                    <th>Descrizione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Metodo</td><td>Isbash</td><td>Selezione del metodo di calcolo</td></tr>
+                <tr><td>S<sub>s</sub></td><td>2.65</td><td>Densit&agrave; relativa roccia (granito)</td></tr>
+                <tr><td>&rho;</td><td>1000 kg/m&sup3;</td><td>Densit&agrave; acqua</td></tr>
+                <tr><td>y<sub>s</sub></td><td>2.0 m</td><td>Scalzamento atteso (dall'app Scalzamento)</td></tr>
+                <tr><td>f<sub>t</sub></td><td>2.0</td><td>Fattore spessore</td></tr>
+                <tr><td>f<sub>L</sub></td><td>2.0</td><td>Fattore larghezza</td></tr>
+                <tr><td>V</td><td>2.5 m/s</td><td>Velocit&agrave; caratteristica</td></tr>
+                <tr><td>K</td><td>1.7</td><td>Coefficiente Isbash (masso annegato)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Passaggi di Calcolo</h3>
+
+        <div class="formula-box">
+            <div class="formula-label">Step 1 - Densit&agrave; della roccia</div>
+            <div class="formula">&rho;<sub>s</sub> = S<sub>s</sub> &middot; &rho; = 2.65 &middot; 1000 = 2650 kg/m&sup3;</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Step 2 - Calcolo D50 (Isbash)</div>
+            <div class="formula">D<sub>50</sub> = V&sup2; / (K&sup2; &middot; g &middot; (S<sub>s</sub> - 1)) = 2.5&sup2; / (1.7&sup2; &middot; 9.81 &middot; 1.65) = 0.144 m</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Step 3 - Spessore rivestimento</div>
+            <div class="formula">t = f<sub>t</sub> &middot; D<sub>50</sub> = 2.0 &middot; 0.144 = 0.288 m</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Step 4 - Larghezza apron</div>
+            <div class="formula">L<sub>apron</sub> = f<sub>L</sub> &middot; y<sub>s</sub> = 2.0 &middot; 2.0 = 4.00 m</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Step 5 - Massa del masso tipico</div>
+            <div class="formula">M<sub>m</sub> = &rho;<sub>s</sub> &middot; (&pi; &middot; D<sub>50</sub>&sup3; / 6) = 2650 &middot; (3.1416 &middot; 0.0030 / 6) = 4.2 kg</div>
+        </div>
+
+        <h3>Risultati Ottenuti</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametro</th>
+                    <th>Valore</th>
+                    <th>Esito Verifica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>D<sub>50</sub></td><td>0.144 m</td><td><span class="badge-ok">OK</span> (in range 0.10-1.50 m)</td></tr>
+                <tr><td>Spessore</td><td>0.288 m</td><td><span class="badge-ok">OK</span> (&ge; max(0.30, 2&times;D50))</td></tr>
+                <tr><td>Larghezza apron</td><td>4.00 m</td><td><span class="badge-ok">OK</span></td></tr>
+                <tr><td>Massa masso</td><td>4.2 kg</td><td><span class="badge-warn">ATTENZIONE</span> (&lt; 25 kg)</td></tr>
+                <tr><td>Classe EN 13383-1</td><td>CP 5/25</td><td>Massi leggeri</td></tr>
+            </tbody>
+        </table>
+
+        <div class="warn-card">
+            <strong>Attenzione:</strong> La massa del masso tipico (&lt; 25 kg) &egrave; inferiore alla soglia minima consigliata per la maneggiabilit&agrave;. Considerare l'adozione di un valore di D<sub>50</sub> maggiore o l'uso di materiale legato (gabbioni).
+        </div>
+    </section>
+
+    <!-- Section 10: Glossario -->
+    <section id="glossario">
+        <h2>10. Glossario dei Termini Tecnici</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Termine (IT)</th>
+                    <th>Termine (EN)</th>
+                    <th>Definizione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Scogliera</td>
+                    <td>Riprap / Revetment</td>
+                    <td>Manto di massi a protezione di sponde o fondali contro l'erosione idraulica</td>
+                </tr>
+                <tr>
+                    <td>D<sub>50</sub></td>
+                    <td>D<sub>50</sub> (median diameter)</td>
+                    <td>Diametro mediano dei granuli, corrispondente al 50% della curva granulometrica</td>
+                </tr>
+                <tr>
+                    <td>Apron</td>
+                    <td>Apron</td>
+                    <td>Strato di protezione posto a raggiera attorno alla pila o alla fondazione</td>
+                </tr>
+                <tr>
+                    <td>Scalzamento</td>
+                    <td>Scour</td>
+                    <td>Erosione del fondo in prossimit&agrave; di un'opera immersa causata dalle correnti</td>
+                </tr>
+                <tr>
+                    <td>Tirante</td>
+                    <td>Flow depth / Water depth</td>
+                    <td>Altezza della colonna d'acqua sopra il fondo</td>
+                </tr>
+                <tr>
+                    <td>Sforzo tangenziale al fondo</td>
+                    <td>Bed shear stress</td>
+                    <td>Forza esercitata dalla corrente sul fondale, responsabile dell'erosione</td>
+                </tr>
+                <tr>
+                    <td>Gradazione</td>
+                    <td>Gradation / Grain size distribution</td>
+                    <td>Curva che descrive la distribuzione delle dimensioni dei granuli</td>
+                </tr>
+                <tr>
+                    <td>Filtro granulare</td>
+                    <td>Granular filter / Blanket</td>
+                    <td>Strato di transizione tra scogliera e substrato per prevenire la migrazione del fine</td>
+                </tr>
+                <tr>
+                    <td>Anti-piping</td>
+                    <td>Internal stability / Piping resistance</td>
+                    <td>Capacità del filtro di impedire il trascinamento delle particelle fini del substrato</td>
+                </tr>
+                <tr>
+                    <td>Armourstone</td>
+                    <td>Armourstone</td>
+                    <td>Masso di roccia naturale o artificiale utilizzato per la protezione di sponde e fondali</td>
+                </tr>
+                <tr>
+                    <td>Alveo ampio</td>
+                    <td>Wide channel / Wide flume</td>
+                    <td>Condizione idraulica in cui le pareti laterali non influenzano la distribuzione delle velocit&agrave;</td>
+                </tr>
+                <tr>
+                    <td>Parametro di Shields</td>
+                    <td>Shields parameter / Shields number</td>
+                    <td>Numero adimensionale che caratterizza l'incipiente movimento dei sedimenti</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <p><strong>ScoglieraPila</strong> &mdash; Documentazione Tecnica v2.0</p>
+    <p style="margin-top: 10px; font-size: 0.85rem;">
+        Software per uso professionale. I risultati devono essere validati da un ingegnere civile/idraulico abilitato.<br>
+        Le verifiche normative implementate sono indicazioni di massima e non sostituiscono la progettazione esecutiva.<br>
+        Riferimento: FHWA HEC-23, EN 13383-1, USACE EM 1110-2-1913.
+    </p>
+    <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.7;">
+        Suite civilbox &mdash; App per ingegneria strutturale e idraulica
+    </p>
+</footer>
+
+</body>
+</html>
