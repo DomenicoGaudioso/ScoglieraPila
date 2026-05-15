@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
+import pandas as pd
 import streamlit as st
 import plotly.express as px
+from word_report import genera_relazione_word
 from src import (DatiScogliera, valida_dati, calcola_d50, calcola_report,
                  spessore_rivestimento, larghezza_apron, massa_masso_tipico,
                  curva_d50_vs_V, curva_d50_vs_y, tabella_passaggi,
@@ -123,6 +125,12 @@ df_report = calcola_report(dati)
 df_pass = tabella_passaggi(dati)
 df_ver = verifiche_scogliera(dati, D50)
 note = commenti_progettuali(dati, D50)
+df_formule_word = pd.DataFrame([
+    {"Grandezza": "Isbash", "Formula": "D50 = V^2 / (K^2 g (Ss - 1))", "Nota": "Dimensionamento per velocita caratteristica"},
+    {"Grandezza": "Shields", "Formula": "D50 = tau / (theta_c (Ss - 1) rho g)", "Nota": "tau = rho g y S"},
+    {"Grandezza": "Spessore", "Formula": "t = f_t D50", "Nota": "Spessore minimo rivestimento"},
+    {"Grandezza": "Apron", "Formula": "L = f_L ys", "Nota": "Estensione in funzione dello scalzamento"},
+])
 
 if metodo == "Isbash":
     df_sens = curva_d50_vs_V(S_s, K_isbash, max(0.1, V * 0.4), V * 2.5)
@@ -131,24 +139,26 @@ else:
                              max(0.1, y_shields * 0.4), y_shields * 2.5)
 
 # ---------------------------------------------------------------------------
-# Indicatori sintetici
+# Risultati principali tabellati
 # ---------------------------------------------------------------------------
 n_ok  = (df_ver["Esito"] == "OK").sum()
 n_att = (df_ver["Esito"] == "ATTENZIONE").sum()
 n_no  = (df_ver["Esito"] == "NON OK").sum()
-
-col1, col2, col3, col4, col5, col6 = st.columns(6)
-col1.metric("D50 stimato [m]", f"{D50:.3f}")
-col2.metric("Spessore min [m]", f"{spess:.3f}")
-col3.metric("Larghezza apron [m]", f"{L_ap:.2f}")
-col4.metric("Massa masso tipico [kg]", f"{massa['massa_masso [kg]']:.0f}")
-col5.metric("Massa scogliera [t/m]", f"{vol_m['Massa_roccia [t/m]']:.2f}")
-col6.metric("Verif. OK / WARN / NO", f"{n_ok} / {n_att} / {n_no}", delta_color="off")
+df_risultati_principali = pd.DataFrame([
+    {"Parametro": "D50 stimato", "Valore": f"{D50:.3f}", "Unita": "m", "Esito/nota": metodo},
+    {"Parametro": "Spessore minimo", "Valore": f"{spess:.3f}", "Unita": "m", "Esito/nota": "-"},
+    {"Parametro": "Larghezza apron", "Valore": f"{L_ap:.2f}", "Unita": "m", "Esito/nota": "-"},
+    {"Parametro": "Massa masso tipico", "Valore": f"{massa['massa_masso [kg]']:.0f}", "Unita": "kg", "Esito/nota": classe_en13383(massa['massa_masso [kg]'])},
+    {"Parametro": "Massa scogliera", "Valore": f"{vol_m['Massa_roccia [t/m]']:.2f}", "Unita": "t/m", "Esito/nota": "-"},
+    {"Parametro": "Verifiche", "Valore": f"{n_ok} OK / {n_att} ATTENZIONE / {n_no} NON OK", "Unita": "-", "Esito/nota": "riepilogo tabellare"},
+])
+st.subheader("Risultati principali")
+st.dataframe(df_risultati_principali, use_container_width=True, hide_index=True)
 
 # ---------------------------------------------------------------------------
 # Tabs
 # ---------------------------------------------------------------------------
-tab1, tab2, tab3, tab4 = st.tabs(["Risultati", "Grafici", "Verifiche avanzate", "Note tecniche"])
+tab1, tab2, tab3, tab4 = [st.container() for _ in range(4)]
 
 with tab1:
     st.subheader("Passaggi di calcolo (passo per passo)")
@@ -176,7 +186,7 @@ with tab1:
     st.dataframe(df_report, use_container_width=True, hide_index=True)
 
     st.divider()
-    col_dl1, col_dl2, col_dl3, col_dl4 = st.columns(4)
+    col_dl1, col_dl2, col_dl3, col_dl4, col_dl5 = st.columns(5)
     with col_dl1:
         st.download_button("Scarica passaggi CSV",
                            df_pass.to_csv(index=False).encode("utf-8"),
@@ -196,6 +206,44 @@ with tab1:
                                "scogliera_pila_report.pdf", "application/pdf")
         except ImportError:
             st.warning("fpdf2 non installato. Eseguire: pip install fpdf2")
+    with col_dl5:
+        word_bytes = genera_relazione_word(
+            "Relazione tecnica - Scogliera a protezione pila",
+            "Dimensionamento riprap con metodo Isbash/Shields, filtro e verifiche tabellate.",
+            [
+                {"Parametro": "Metodo", "Valore": metodo, "Unita": "-", "Esito/nota": "-"},
+                {"Parametro": "Densita relativa Ss", "Valore": f"{S_s:.2f}", "Unita": "-", "Esito/nota": "-"},
+                {"Parametro": "Scalzamento atteso", "Valore": f"{ys_atteso:.2f}", "Unita": "m", "Esito/nota": "-"},
+                {"Parametro": "Fattore spessore", "Valore": f"{fattore_spessore:.2f}", "Unita": "-", "Esito/nota": "-"},
+                {"Parametro": "Fattore larghezza", "Valore": f"{fattore_larghezza:.2f}", "Unita": "-", "Esito/nota": "-"},
+                {"Parametro": "Velocita/Tirante", "Valore": f"{V:.2f}" if metodo == "Isbash" else f"{y_shields:.2f}", "Unita": "m/s o m", "Esito/nota": "-"},
+            ],
+            df_formule_word,
+            [
+                ("Risultati principali", df_risultati_principali),
+                ("Passaggi di calcolo", df_pass),
+                ("Riepilogo dimensionamento", df_report),
+                ("Verifiche normative", df_ver),
+                ("Sensitivita", df_sens),
+            ],
+            note,
+            figures=[
+                {
+                    "title": "Sensitivita D50",
+                    "df": df_sens,
+                    "x": "V [m/s]" if metodo == "Isbash" else "y [m]",
+                    "y": "D50 Isbash [m]" if metodo == "Isbash" else "D50 Shields [m]",
+                    "kind": "line",
+                    "ylabel": "D50 [m]",
+                },
+            ],
+        )
+        st.download_button(
+            "Scarica relazione Word",
+            word_bytes,
+            "relazione_scogliera_pila.docx",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
 
 with tab2:
     if metodo == "Isbash":

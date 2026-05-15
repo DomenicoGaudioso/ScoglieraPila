@@ -21,7 +21,7 @@ Funzionalità implementate:
 - curva_d50_vs_V(): sensitività Isbash su 50 punti.
 - curva_d50_vs_y(): sensitività Shields su 50 punti.
 - commenti_progettuali(): note su D50 elevato, velocità, Shields conservativo.
-- app.py: layout wide, 4 metriche, 3 tab (Risultati / Grafici / Note), grafico
+- app.py: layout wide, risultati principali tabellati, 3 tab (Risultati / Grafici / Note), grafico
   sensitività Plotly con marcatura del punto di progetto, download CSV ×2.
 - Input dinamici in sidebar in funzione del metodo selezionato.
 

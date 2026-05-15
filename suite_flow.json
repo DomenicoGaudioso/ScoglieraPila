@@ -1,0 +1,25 @@
+{
+  "repo": "ScoglieraPila",
+  "suite": "Idraulica",
+  "role": "dimensionamento riprap attorno alla pila",
+  "logic_chain": "piena fluviale -> azioni sulla pila -> scalzamento -> scogliera pila -> scogliera fondazione",
+  "upstream": ["ForzaIdrodinamica", "Scalzamento"],
+  "downstream": ["ScoglieraFondazione"],
+  "primary_inputs": [
+    "velocita caratteristica",
+    "scalzamento atteso ys",
+    "densita relativa roccia",
+    "tirante e pendenza"
+  ],
+  "primary_outputs": [
+    "D50 riprap",
+    "spessore rivestimento",
+    "larghezza apron",
+    "massa masso",
+    "filtro Terzaghi"
+  ],
+  "implementation_notes": [
+    "D50 e ys sono input diretti per ScoglieraFondazione.",
+    "Il metodo Isbash/Shields deve essere scelto in coerenza con il caso idraulico."
+  ]
+}

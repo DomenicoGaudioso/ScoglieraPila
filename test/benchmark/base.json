@@ -1,0 +1,24 @@
+{
+  "name": "base_riprap_isbash",
+  "input": {
+    "S_s": 2.65,
+    "rho": 1000.0,
+    "metodo": "Isbash",
+    "V": 2.5,
+    "K_isbash": 1.7,
+    "y": 0.0,
+    "S_idraulica": 0.002,
+    "theta_c": 0.047,
+    "ys_atteso": 2.0,
+    "fattore_spessore": 2.0,
+    "fattore_larghezza": 2.0
+  },
+  "expected": {
+    "D50": 0.13360700323,
+    "spessore": 0.26721400646,
+    "larghezza_apron": 4.0,
+    "massa_masso_kg": 3.309269717869,
+    "massa_t_m": 1.7
+  },
+  "abs_tolerance": 1e-6
+}

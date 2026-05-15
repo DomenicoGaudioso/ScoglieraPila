@@ -13,7 +13,7 @@ La versione attuale è completa nei requisiti di base. Funzionalità implementat
 - curva_d50_vs_V(): 50 punti sensitività Isbash.
 - curva_d50_vs_y(): 50 punti sensitività Shields.
 - commenti_progettuali(): note automatiche su D50, velocità, θ_c.
-- app.py: layout wide, 4 metriche, input dinamici per metodo, 3 tab,
+- app.py: layout wide, risultati principali tabellati, input dinamici per metodo, 3 tab,
   grafico sensitività con marcatura punto di progetto, download CSV.
 
 STANDARD DELLA SUITE
